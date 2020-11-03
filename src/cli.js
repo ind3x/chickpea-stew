@@ -1,68 +1,70 @@
 import arg from 'arg';
 import inquirer from 'inquirer';
-import { createProject } from './main';
+import { stew } from './main';
 
 function parseArgumentsIntoOptions(rawArgs) {
     const args = arg(
         {
-            '--git': Boolean,
-            '--yes': Boolean,
-            '--install': Boolean,
-            '-g': '--git',
-            '-y': '--yes',
-            '-i': '--install',
+            '--source': String,
+            '--target': String,
+            '-S': '--source',
+            '-T': '--target',
         },
         {
             argv: rawArgs.slice(2),
         }
     );
+
     return {
-        skipPrompts: args['--yes'] || false,
-        git: args['--git'] || false,
-        template: args._[0],
-        runInstall: args['--install'] || false,
+        sourceDirectory: args['--source'] || false,
+        targetDirectory: args['--target'] || false,
+        concern: args._[0],
     };
 }
 
 async function promptForMissingOptions(options) {
-    const defaultTemplate = 'JavaScript';
-    if (options.skipPrompts) {
-        return {
-            ...options,
-            template: options.template || defaultTemplate,
-        };
-    }
+    const defaultConcern = 'Backend';
     
     const questions = [];
-    if (!options.template) {
+    if (!options.concern) {
         questions.push({
             type: 'list',
-            name: 'template',
-            message: 'Please choose which project template to use',
-            choices: ['JavaScript', 'TypeScript'],
-            default: defaultTemplate,
+            name: 'concern',
+            message: 'Please choose which stew to cook',
+            choices: ['Backend', 'Frontend', 'All'],
+            default: defaultConcern,
         });
     }
     
-    if (!options.git) {
+    if (!options.sourceDirectory) {
         questions.push({
-            type: 'confirm',
-            name: 'git',
-            message: 'Initialize a git repository?',
-            default: false,
+            type: 'input',
+            name: 'sourceDirectory',
+            message: 'Set JHipster directory',
+            default: process.cwd() + '/tools/jhipster',
+        });
+    }
+    
+    if (!options.targetDirectory) {
+        questions.push({
+            type: 'input',
+            name: 'targetDirectory',
+            message: 'Set Chickpea directory',
+            default: `${process.cwd()}/target`,
         });
     }
     
     const answers = await inquirer.prompt(questions);
     return {
         ...options,
-        template: options.template || answers.template,
-        git: options.git || answers.git,
+        concern: options.concern || answers.concern,
+        sourceDirectory: options.sourceDirectory || answers.sourceDirectory,
+        targetDirectory: options.targetDirectory || answers.targetDirectory,
     };
 }
 
 export async function cli (args) {
     let options = parseArgumentsIntoOptions(args);
     options = await promptForMissingOptions(options);
-    await createProject(options);
+    await stew(options);
 }

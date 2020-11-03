@@ -1,7 +1,7 @@
 {
   "name": "@iurra/chickpea-stew",
   "version": "1.0.0",
-  "description": "Enrich chickpea projects with JHipster cubes",
+  "description": "Enrich Chickpea projects with JHipster cubes",
   "main": "src/index.js",
   "bin": {
     "chickpea-stew": "bin/stew.js",
@@ -27,7 +27,8 @@
     "inquirer": "^7.3.3",
     "listr": "^0.14.3",
     "ncp": "^2.0.0",
-    "pkg-install": "^1.0.0"
+    "pkg-install": "^1.0.0",
+    "text-case": "^1.0.9"
   },
   "devDependencies": {},
   "repository": {
