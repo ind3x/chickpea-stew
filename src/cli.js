@@ -42,7 +42,7 @@ async function promptForMissingOptions(options) {
             type: 'input',
             name: 'sourceDirectory',
             message: 'Set JHipster directory',
-            default: process.cwd() + '/tools/jhipster',
+            default: `${process.cwd()}/tools/jhipster`,
         });
     }
     

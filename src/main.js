@@ -15,8 +15,11 @@ export async function stew (options) {
         }
     ]);
     
-    await tasks.run();
-    console.log('%s Chickpea stew is ready to eat', chalk.green.bold('DONE'));
+    await tasks.run().then(ctx => {
+        console.log('%s Chickpea stew is ready to eat', chalk.green.bold('DONE'));
+    }).catch(err => {
+        console.error('%s %s', chalk.red.bold('ERROR'), err);
+    });
     return true;
     
 }

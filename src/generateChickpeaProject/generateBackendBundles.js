@@ -26,16 +26,17 @@ export function generateBackendBundles (options) {
  * @returns {Promise<any>}
  */
 async function makeBundleDirectories (options) {
+    const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
     const bundleTargetDirectory = `${options.targetDirectory}/bundles`;
+    
+    // Create bundle directory
     try {
         if (!fs.existsSync(bundleTargetDirectory)) {
             await mkDir(bundleTargetDirectory);
         }
     } catch (e) {
-        console.error('%s Cannot create Chickpea bundles directory', chalk.red.bold('ERROR'));
-        process.exit(1);
+        return Promise.reject(new Error('Cannot create Chickpea bundles directory'));
     }
-    const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
     
     let models;
     try {
@@ -106,8 +107,7 @@ async function copyJHipsterFilesToBundles (options) {
     try {
         models = await readDir(jhipsterDirectoryMap['models']);
     } catch (e) {
-        console.error('%s Cannot find JHipster cubes', chalk.red.bold('ERROR'));
-        process.exit(1);
+        return Promise.reject(new Error('Cannot find JHipster cubes'));
     }
     
     let promises = [];
