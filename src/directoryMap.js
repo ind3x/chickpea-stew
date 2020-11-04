@@ -6,17 +6,18 @@ let jhipsterDirectoryMap = {};
 
 const readFile = promisify(fs.readFile);
 
-export async function getDirectoryMap (options) {
+export async function getJhipsterDirectoryMap (options) {
     try {
         let jhipsterConfig = await readFile(`${options.sourceDirectory}/.yo-rc.json`);
         jhipsterConfig = JSON.parse(jhipsterConfig);
 
         const jhipsterPackageFolder = `${options.sourceDirectory}/src/main/java/${jhipsterConfig['generator-jhipster'].packageFolder}`;
-        
         jhipsterDirectoryMap['models'] = `${jhipsterPackageFolder}/domain`;
         jhipsterDirectoryMap['enumerations'] = `${jhipsterPackageFolder}/domain/enumeration`;
         jhipsterDirectoryMap['repositories'] = `${jhipsterPackageFolder}/repository`;
         jhipsterDirectoryMap['services'] = `${jhipsterPackageFolder}/service`;
+        jhipsterDirectoryMap['mappers'] = `${jhipsterPackageFolder}/service/mapper`;
+        jhipsterDirectoryMap['controllers'] = `${jhipsterPackageFolder}/web/rest`;
         
         return jhipsterDirectoryMap;
     } catch (e) {

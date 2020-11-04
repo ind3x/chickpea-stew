@@ -7,8 +7,10 @@ function parseArgumentsIntoOptions(rawArgs) {
         {
             '--source': String,
             '--target': String,
+            '--package': String,
             '-S': '--source',
             '-T': '--target',
+            '-pkg': '--package'
         },
         {
             argv: rawArgs.slice(2),
@@ -18,21 +20,20 @@ function parseArgumentsIntoOptions(rawArgs) {
     return {
         sourceDirectory: args['--source'] || false,
         targetDirectory: args['--target'] || false,
+        packageName: args['--package'] || false,
         concern: args._[0],
     };
 }
 
 async function promptForMissingOptions(options) {
-    const defaultConcern = 'Backend';
-    
     const questions = [];
     if (!options.concern) {
         questions.push({
             type: 'list',
             name: 'concern',
             message: 'Please choose which stew to cook',
-            choices: ['Backend', 'Frontend', 'All'],
-            default: defaultConcern,
+            choices: ['Backend', 'Frontend'],
+            default: 'Backend',
         });
     }
     
@@ -54,12 +55,22 @@ async function promptForMissingOptions(options) {
         });
     }
     
+    if (!options.packageName) {
+        questions.push({
+            type: 'input',
+            name: 'packageName',
+            message: 'Set Chickpea package name',
+            default: 'com.chickpea.stew',
+        });
+    }
+    
     const answers = await inquirer.prompt(questions);
     return {
         ...options,
         concern: options.concern || answers.concern,
         sourceDirectory: options.sourceDirectory || answers.sourceDirectory,
         targetDirectory: options.targetDirectory || answers.targetDirectory,
+        packageName: options.packageName || answers.packageName,
     };
 }
 
