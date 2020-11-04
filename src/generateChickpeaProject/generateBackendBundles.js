@@ -32,7 +32,7 @@ async function makeBundleDirectories (options) {
     // Create bundle directory
     try {
         if (!fs.existsSync(bundleTargetDirectory)) {
-            await mkDir(bundleTargetDirectory);
+            await mkDir(bundleTargetDirectory, { recursive: true });
         }
     } catch (e) {
         return Promise.reject(new Error('Cannot create Chickpea bundles directory'));
@@ -57,7 +57,7 @@ async function makeBundleDirectories (options) {
         // Create bundle directory
         const bundlePath = `${bundleTargetDirectory}/${camelCase(modelName)}`;
         if (!fs.existsSync(bundlePath)) {
-            promises = [...promises, mkDir(bundlePath)];
+            promises = [...promises, mkDir(bundlePath, { recursive: true })];
         }
         
         // Create bundle model directory
