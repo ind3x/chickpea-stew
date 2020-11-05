@@ -35,7 +35,7 @@ async function promptForMissingOptions(options) {
         questions.push({
             type: 'list',
             name: 'concern',
-            message: 'Which Chickpea stew do you want to cook?',
+            message: 'Which Garbanzo stew do you want to cook?',
             choices: ['Backend', 'Frontend'],
             default: 'Backend',
         });
@@ -54,7 +54,7 @@ async function promptForMissingOptions(options) {
         questions.push({
             type: 'input',
             name: 'targetDirectory',
-            message: 'Set Chickpea directory',
+            message: 'Set Garbanzo directory',
             default: `${process.cwd()}/target`,
         });
     }
@@ -63,7 +63,7 @@ async function promptForMissingOptions(options) {
         questions.push({
             type: 'confirm',
             name: 'jhipster',
-            message: 'Buy JHipster cubes before cook?',
+            message: 'Buy JHipster cubes before cook (create JHipster application)?',
             default: false,
         });
     }
@@ -81,7 +81,7 @@ async function promptForMissingOptions(options) {
         questions.push({
             type: 'input',
             name: 'packageName',
-            message: 'Set Chickpea package name',
+            message: 'Set Garbanzo package name',
             default: 'com.chickpea.stew',
         });
     }

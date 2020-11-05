@@ -17,11 +17,11 @@ export async function checkJhipsterConfig (options) {
 }
 
 export async function execJhipster (options) {
-    const result = await execa('jhipster', ['--force'], {
+    const result = await execa('jhipster', ['--force', '--skip-install'], {
         cwd: options.sourceDirectory
     });
     if (result.failed) {
-        return Promise.reject(new Error('An elderly woman has buyed the last JHipster cubes (error generating JHipster application)'));
+        return Promise.reject(new Error('An elderly woman has buyed the last JHipster cubes (error creating JHipster application)'));
     }
     return Promise.resolve('Done');
 }

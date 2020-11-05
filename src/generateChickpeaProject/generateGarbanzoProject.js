@@ -4,7 +4,7 @@ import {generateBackendCommonComponents} from './generateBackendCommonComponents
 import {generateFrontendBundles} from './generateFrontendBundles';
 import {generateFrontendCommonComponents} from './generateFrontendCommonComponents';
 
-export function generateChickpeaProject (options) {
+export function generateGarbanzoProject (options) {
     let tasks = [];
     if (['backend'].indexOf(options.concern.toLowerCase()) !== -1) {
         tasks = [

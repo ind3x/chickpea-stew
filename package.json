@@ -1,11 +1,11 @@
 {
   "name": "@iurra/chickpea-stew",
-  "version": "0.3.2",
-  "description": "Enrich Chickpea projects with JHipster cubes",
+  "version": "0.3.3",
+  "description": "Enrich Garbanzo projects with JHipster cubes",
   "main": "src/index.js",
   "bin": {
-    "chickpea-stew": "bin/stew.js",
-    "stew": "bin/stew.js"
+    "stew": "bin/stew.js",
+    "guisar": "bin/stew.js"
   },
   "publishConfig": {
     "access": "public"
@@ -15,7 +15,8 @@
   },
   "keywords": [
     "cli",
-    "chickpea-stew"
+    "chickpea-stew",
+    "garbanzo"
   ],
   "author": "Imanol Urra",
   "license": "MIT",

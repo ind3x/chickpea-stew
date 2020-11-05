@@ -11,11 +11,11 @@ const copyFile = promisify(fs.copyFile);
 export function generateBackendBundles (options) {
     return [
         {
-            title: 'Heating up Chickpea stew (generating Chickpea bundles directories)',
+            title: 'Heating up Garbanzo stew (generating Garbanzo bundles directories)',
             task: () => makeBundleDirectories(options)
         },
         {
-            title: 'Adding JHipster cubes (copying JHipster files to Chickpea bundles)',
+            title: 'Adding JHipster cubes (copying JHipster files to Garbanzo bundles)',
             task: () => copyJHipsterFilesToBundles(options)
         }
     ];
@@ -39,7 +39,7 @@ async function makeBundleDirectories (options) {
                 await mkDir(bundleTargetDirectory, { recursive: true });
             }
         } catch (e) {
-            observer.error(new Error('Cannot create Chickpea bundles directory'));
+            observer.error(new Error('Cannot create Garbanzo bundles directory'));
             return;
         }
      
@@ -56,10 +56,10 @@ async function makeBundleDirectories (options) {
             if (isDir(`${jhipsterDirectoryMap['models']}/${model}`) || model.indexOf('.java') === -1) {
                 continue;
             }
-            
+    
             // Get model name
             const modelName = model.split('.').shift();
-            
+    
             try {
                 // Create bundle directory
                 const bundlePath = `${bundleTargetDirectory}/${camelCase(modelName)}`;
@@ -98,6 +98,7 @@ async function makeBundleDirectories (options) {
                 }
             } catch (e) {
                 observer.error(new Error('Cannot unwrap JHipster cubes (error creating bundle directories)'));
+                return;
             }
         }
         
@@ -111,7 +112,7 @@ async function makeBundleDirectories (options) {
  * @returns {Promise<boolean>}
  */
 async function copyJHipsterFilesToBundles (options) {
-    new Observable(async observer => {
+    return new Observable(async observer => {
         observer.next('Add water and tomato purée to the pan. Bring the mixture to the boil.');
         const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
         const bundleTargetDirectory = `${options.targetDirectory}/bundles`;
@@ -122,6 +123,7 @@ async function copyJHipsterFilesToBundles (options) {
             models = await readDir(jhipsterDirectoryMap['models']);
         } catch (e) {
             observer.error(new Error('Cannot find JHipster cubes (cannot read Jhipster model directory)'));
+            return;
         }
         
         for (const model of models) {
@@ -131,6 +133,8 @@ async function copyJHipsterFilesToBundles (options) {
             
             // Get model name
             const modelName = model.split('.').shift();
+    
+            // Get bundle path
             const bundlePath = `${bundleTargetDirectory}/${camelCase(modelName)}`;
             
             try {

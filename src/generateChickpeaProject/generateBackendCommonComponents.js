@@ -12,11 +12,11 @@ const copy = promisify(ncp);
 export function generateBackendCommonComponents (options) {
     return [
         {
-            title: 'Choosing Chickpea stew seasoning (making Chickpea common directories)',
+            title: 'Choosing Garbanzo stew seasoning (making Garbanzo common directories)',
             task: () => makeCommondComponentDirectories(options)
         },
         {
-            title: 'Seasoning Chickpea stew (copying JHipster files to Chickpea common directories)',
+            title: 'Seasoning Garbanzo stew (copying JHipster files to Garbanzo common directories)',
             task: () => copyCommondComponent(options)
         }
     ];
