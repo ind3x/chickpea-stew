@@ -25,7 +25,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         targetDirectory: args['--target'] || false,
         packageName: args['--package'] || false,
         jhipster: args['--jhipster'] || false,
-        concern: args._[0],
+        concern: args._[0] ? args._[0].toLowerCase() : false,
     };
 }
 
@@ -35,7 +35,7 @@ async function promptForMissingOptions(options) {
         questions.push({
             type: 'list',
             name: 'concern',
-            message: 'Please choose which stew to cook',
+            message: 'Which Chickpea stew do you want to cook?',
             choices: ['Backend', 'Frontend'],
             default: 'Backend',
         });
@@ -68,9 +68,16 @@ async function promptForMissingOptions(options) {
         });
     }
     
+    // If backend, show package name question
     let answers = await inquirer.prompt(questions);
     questions = [];
-    if ([options.concern, answers.concern.toLowerCase()].indexOf('backend') !== -1 && !options.packageName) {
+    
+    // To lowercase in case of set from questions
+    if (typeof answers.concern !== 'undefined') {
+        answers.concern = answers.concern.toLowerCase();
+    }
+    
+    if ([options.concern, answers.concern].indexOf('backend') !== -1 && !options.packageName) {
         questions.push({
             type: 'input',
             name: 'packageName',
@@ -79,10 +86,11 @@ async function promptForMissingOptions(options) {
         });
     }
     
+    // Get all answers and return all options
     answers = {...answers, ...await inquirer.prompt(questions)};
     return {
         ...options,
-        concern: options.concern || answers.concern,
+        concern: options.concern || answers.concern.toLowerCase(),
         sourceDirectory: options.sourceDirectory || answers.sourceDirectory,
         targetDirectory: options.targetDirectory || answers.targetDirectory,
         packageName: options.packageName || answers.packageName,

@@ -79,28 +79,32 @@ async function copyCommondComponent (options) {
         const targetDirectory = `${options.targetDirectory}`;
         const templateDirectory = path.resolve(new URL(import.meta.url).pathname, '../../../templates', options.concern);
         
-        // Copy enumerations
-        await  copy(jhipsterDirectoryMap['enumerations'], `${targetDirectory}/models/enumerations`, {
-            clobber: false
-        });
-        
-        // Copy EntityMapper
-        await copyFile(`${jhipsterDirectoryMap['mappers']}/EntityMapper.java`, `${targetDirectory}/mappers/EntityMapper.java`);
-        
-        // Copy services from template
-        await copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
-            clobber: false
-        });
-        
-        // Copy errors from template
-        await copy(`${templateDirectory}/static/errors`, `${targetDirectory}/errors`, {
-            clobber: false
-        });
-        
-        // Copy configurations from template
-        await copy(`${templateDirectory}/static/configurations`, `${targetDirectory}/configurations`, {
-            clobber: false
-        });
+        try {
+            // Copy enumerations
+            await copy(jhipsterDirectoryMap['enumerations'], `${targetDirectory}/models/enumerations`, {
+                clobber: false
+            });
+    
+            // Copy EntityMapper
+            await copyFile(`${jhipsterDirectoryMap['mappers']}/EntityMapper.java`, `${targetDirectory}/mappers/EntityMapper.java`);
+    
+            // Copy services from template
+            await copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
+                clobber: false
+            });
+    
+            // Copy errors from template
+            await copy(`${templateDirectory}/static/errors`, `${targetDirectory}/errors`, {
+                clobber: false
+            });
+    
+            // Copy configurations from template
+            await copy(`${templateDirectory}/static/configurations`, `${targetDirectory}/configurations`, {
+                clobber: false
+            });
+        } catch (e) {
+            // console.log(e);
+        }
         
         observer.complete();
     });

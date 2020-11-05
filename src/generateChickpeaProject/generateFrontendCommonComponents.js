@@ -54,30 +54,34 @@ async function makeCommondComponentDirectories (options) {
 async function copyCommondComponent (options) {
     return new Observable(async observer => {
         observer.next('Add the kale to the stew and continue to simmer until tender. Season, to taste, with salt and freshly ground black pepper.');
+        
         const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
         const targetDirectory = `${options.targetDirectory}`;
         const templateDirectory = path.resolve(new URL(import.meta.url).pathname, '../../../templates', options.concern);
         
-        // Copy enumerations
-        await copy(jhipsterDirectoryMap['enumerations'], `${targetDirectory}/models/enumerations`, {
-            clobber: false
-        });
-        
-        // Copy services from template
-        await copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
-            clobber: false
-        });
-        
-        // Copy errors from template
-        await  copy(`${templateDirectory}/static/utils`, `${targetDirectory}/utils`, {
-            clobber: false
-        });
-        
-        // Copy configurations from template
-        await copy(`${templateDirectory}/static/components`, `${targetDirectory}/components`, {
-            clobber: false
-        });
-        
+        try {
+            // Copy enumerations
+            await copy(jhipsterDirectoryMap['enumerations'], `${targetDirectory}/models/enumerations`, {
+                clobber: false
+            });
+            
+            // Copy services from template
+            await copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
+                clobber: false
+            });
+            
+            // Copy errors from template
+            await copy(`${templateDirectory}/static/utils`, `${targetDirectory}/utils`, {
+                clobber: false
+            });
+            
+            // Copy configurations from template
+            await copy(`${templateDirectory}/static/components`, `${targetDirectory}/components`, {
+                clobber: false
+            });
+        } catch (e) {
+            // console.log(e);
+        }
         observer.complete();
     });
 }

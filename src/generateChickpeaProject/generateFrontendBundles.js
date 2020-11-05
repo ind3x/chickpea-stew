@@ -39,6 +39,7 @@ async function makeBundleDirectories (options) {
             }
         } catch (e) {
             observer.error(new Error('Cannot create Chickpea bundles directory'));
+            return;
         }
         
         observer.next('Add the onion and garlic and fry gently for 2-3 minutes, stirring occasionally, until softened but not browned.');
@@ -46,7 +47,8 @@ async function makeBundleDirectories (options) {
         try {
             models = await readDir(jhipsterDirectoryMap['models']);
         } catch (e) {
-            observer.error(new Error('Cannot find JHipster cubes'));
+            observer.error(new Error('Cannot find JHipster cubes (cannot read Jhipster model directory)'));
+            return;
         }
         
         for (const model of models) {
@@ -99,7 +101,8 @@ async function copyJHipsterFilesToBundles (options) {
         try {
             models = await readDir(jhipsterDirectoryMap['models']);
         } catch (e) {
-            observer.error(new Error('Cannot find JHipster cubes'));
+            observer.error(new Error('Cannot find JHipster cubes (cannot read Jhipster model directory)'));
+            return;
         }
         
         for (const model of models) {

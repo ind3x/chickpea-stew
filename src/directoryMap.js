@@ -37,12 +37,13 @@ export async function getJhipsterDirectoryMap (options) {
         let jhipsterConfig = await readFile(`${options.sourceDirectory}/.yo-rc.json`);
         jhipsterConfig = JSON.parse(jhipsterConfig);
         
+        let jhipsterDirectoryMap;
         if (['backend'].indexOf(options.concern) !== -1) {
-            getBackendDirectoryMap(jhipsterConfig, options);
+            jhipsterDirectoryMap = getBackendDirectoryMap(jhipsterConfig, options);
         }
         
         if (['frontend'].indexOf(options.concern) !== -1) {
-            getFrontendDirectoryMap(jhipsterConfig, options);
+            jhipsterDirectoryMap = getFrontendDirectoryMap(jhipsterConfig, options);
         }
         
         return jhipsterDirectoryMap;
