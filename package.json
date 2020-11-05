@@ -1,6 +1,6 @@
 {
   "name": "@iurra/chickpea-stew",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Enrich Chickpea projects with JHipster cubes",
   "main": "src/index.js",
   "bin": {

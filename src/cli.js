@@ -56,7 +56,7 @@ async function promptForMissingOptions(options) {
     }
     
     let answers = await inquirer.prompt(questions);
-    if ([options.concern, answers.concern].indexOf('Backend') !== -1 && !options.packageName) {
+    if ([options.concern, answers.concern].indexOf('backend') !== -1 && !options.packageName) {
         questions.push({
             type: 'input',
             name: 'packageName',
