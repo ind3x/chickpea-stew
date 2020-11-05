@@ -3,9 +3,9 @@ import ncp from 'ncp';
 import { promisify } from 'util';
 import { getJhipsterDirectoryMap } from '../directoryMap';
 import path from 'path';
+import { Observable } from 'rxjs';
 
 const mkDir = promisify(fs.mkdir);
-const copyFile = promisify(fs.copyFile);
 const copy = promisify(ncp);
 
 export function generateFrontendCommonComponents (options) {
@@ -22,58 +22,62 @@ export function generateFrontendCommonComponents (options) {
 }
 
 async function makeCommondComponentDirectories (options) {
-    const targetDirectory = `${options.targetDirectory}`;
-    let promises = [];
-    
-    // Create bundle model directory and enumeration directory
-    if (!fs.existsSync(`${targetDirectory}/models`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/models/enumerations`, { recursive: true })];
-    }
-    
-    // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/services`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/services`, { recursive: true })];
-    }
-    
-    // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/components`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/components`)];
-    }
-
-    
-    // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/utils`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/utils`)];
-    }
-    
-    return Promise.all(promises);
+    return new Observable(async observer => {
+        observer.next('Drain the chickpeas in a sieve and rinse under cold water. Add them to the tomato mixture and return it to a simmer.');
+        
+        const targetDirectory = `${options.targetDirectory}`;
+        
+        // Create bundle model directory and enumeration directory
+        if (!fs.existsSync(`${targetDirectory}/models`)) {
+            await mkDir(`${targetDirectory}/models/enumerations`, { recursive: true });
+        }
+        
+        // Create bundle services directory
+        if (!fs.existsSync(`${targetDirectory}/services`)) {
+            await mkDir(`${targetDirectory}/services`, { recursive: true });
+        }
+        
+        // Create bundle services directory
+        if (!fs.existsSync(`${targetDirectory}/components`)) {
+            await mkDir(`${targetDirectory}/components`);
+        }
+        
+        // Create bundle services directory
+        if (!fs.existsSync(`${targetDirectory}/utils`)) {
+            await mkDir(`${targetDirectory}/utils`);
+        }
+        
+        observer.complete();
+    });
 }
 
 async function copyCommondComponent (options) {
-    const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
-    const targetDirectory = `${options.targetDirectory}`;
-    const templateDirectory = path.resolve(new URL(import.meta.url).pathname, '../../../templates', options.concern);
-    let promises = [];
-    
-    // Copy enumerations
-    promises = [...promises, copy(jhipsterDirectoryMap['enumerations'], `${targetDirectory}/models/enumerations`, {
-        clobber: false
-    })];
-    
-    // Copy services from template
-    promises = [...promises, copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
-        clobber: false
-    })];
-    
-    // Copy errors from template
-    promises = [...promises, copy(`${templateDirectory}/static/utils`, `${targetDirectory}/utils`, {
-        clobber: false
-    })];
-    
-    // Copy configurations from template
-    promises = [...promises, copy(`${templateDirectory}/static/components`, `${targetDirectory}/components`, {
-        clobber: false
-    })];
-    
-    return Promise.all(promises);
+    return new Observable(async observer => {
+        observer.next('Add the kale to the stew and continue to simmer until tender. Season, to taste, with salt and freshly ground black pepper.');
+        const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
+        const targetDirectory = `${options.targetDirectory}`;
+        const templateDirectory = path.resolve(new URL(import.meta.url).pathname, '../../../templates', options.concern);
+        
+        // Copy enumerations
+        await copy(jhipsterDirectoryMap['enumerations'], `${targetDirectory}/models/enumerations`, {
+            clobber: false
+        });
+        
+        // Copy services from template
+        await copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
+            clobber: false
+        });
+        
+        // Copy errors from template
+        await  copy(`${templateDirectory}/static/utils`, `${targetDirectory}/utils`, {
+            clobber: false
+        });
+        
+        // Copy configurations from template
+        await copy(`${templateDirectory}/static/components`, `${targetDirectory}/components`, {
+            clobber: false
+        });
+        
+        observer.complete();
+    });
 }

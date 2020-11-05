@@ -10,7 +10,7 @@ export async function stew (options) {
     
     const tasks = new Listr([
         {
-            title: `Adding JHipster cubes to Chickpea stew (generating ${options.concern} project)`,
+            title: `Cooking Chickpea stew (generating ${options.concern} project)`,
             task: () => generateChickpeaProject(options)
         }
     ]);

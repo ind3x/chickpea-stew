@@ -18,7 +18,7 @@ export function generateChickpeaProject (options) {
         tasks = [
             ...tasks,
             ...generateFrontendBundles(options),
-            ...generateFrontendCommonComponents(options)
+            ...generateFrontendCommonComponents(options),
         ];
     }
     return new Listr(tasks);
