@@ -8,7 +8,7 @@ const mkDir = promisify(fs.mkdir);
 const copyFile = promisify(fs.copyFile);
 const copy = promisify(ncp);
 
-export function generateBackendCommonComponents (options) {
+export function generateFrontendCommonComponents (options) {
     return [
         {
             title: 'Choosing Chickpea stew seasoning (making Chickpea common directories)',
@@ -30,39 +30,20 @@ async function makeCommondComponentDirectories (options) {
         promises = [...promises, mkDir(`${targetDirectory}/models/enumerations`, { recursive: true })];
     }
     
-    // Create bundle repository directory
-    if (!fs.existsSync(`${targetDirectory}/repositories`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/repositories`)];
-    }
-    
     // Create bundle services directory
     if (!fs.existsSync(`${targetDirectory}/services`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/services/dto`, { recursive: true })];
+        promises = [...promises, mkDir(`${targetDirectory}/services`, { recursive: true })];
     }
     
     // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/mappers`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/mappers`)];
+    if (!fs.existsSync(`${targetDirectory}/components`)) {
+        promises = [...promises, mkDir(`${targetDirectory}/components`)];
     }
+
     
     // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/controllers`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/controllers`)];
-    }
-    
-    // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/queryParameters`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/queryParameters`)];
-    }
-    
-    // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/errors`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/errors`)];
-    }
-    
-    // Create bundle services directory
-    if (!fs.existsSync(`${targetDirectory}/configurations`)) {
-        promises = [...promises, mkDir(`${targetDirectory}/configurations`)];
+    if (!fs.existsSync(`${targetDirectory}/utils`)) {
+        promises = [...promises, mkDir(`${targetDirectory}/utils`)];
     }
     
     return Promise.all(promises);
@@ -79,24 +60,18 @@ async function copyCommondComponent (options) {
         clobber: false
     })];
     
-    // Copy EntityMapper
-    promises = [...promises, copyFile(
-        `${jhipsterDirectoryMap['mappers']}/EntityMapper.java`,
-        `${targetDirectory}/mappers/EntityMapper.java`
-    )];
-    
     // Copy services from template
     promises = [...promises, copy(`${templateDirectory}/static/services`, `${targetDirectory}/services`, {
         clobber: false
     })];
     
     // Copy errors from template
-    promises = [...promises, copy(`${templateDirectory}/static/errors`, `${targetDirectory}/errors`, {
+    promises = [...promises, copy(`${templateDirectory}/static/utils`, `${targetDirectory}/utils`, {
         clobber: false
     })];
     
     // Copy configurations from template
-    promises = [...promises, copy(`${templateDirectory}/static/configurations`, `${targetDirectory}/configurations`, {
+    promises = [...promises, copy(`${templateDirectory}/static/components`, `${targetDirectory}/components`, {
         clobber: false
     })];
     

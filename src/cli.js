@@ -55,7 +55,8 @@ async function promptForMissingOptions(options) {
         });
     }
     
-    if (!options.packageName) {
+    let answers = await inquirer.prompt(questions);
+    if ([options.concern, answers.concern].indexOf('Backend') !== -1 && !options.packageName) {
         questions.push({
             type: 'input',
             name: 'packageName',
@@ -64,7 +65,7 @@ async function promptForMissingOptions(options) {
         });
     }
     
-    const answers = await inquirer.prompt(questions);
+    answers = await inquirer.prompt(questions);
     return {
         ...options,
         concern: options.concern || answers.concern,

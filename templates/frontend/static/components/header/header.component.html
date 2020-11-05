@@ -1,0 +1,30 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto">
+      <h3 class="page-title">{{ title }}</h3>
+      <div class="d-inline-block align-items-center breadcrumbs">
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/iesa"><i class="mdi mdi-home-outline"></i></a></li>
+
+            <ng-container *ngIf="items">
+              <li class="breadcrumb-item" aria-current="page" *ngFor="let item of items">
+                <a [routerLink]="item.link" *ngIf="item.link">
+                  {{ item.title }}
+                </a>
+
+                <ng-container *ngIf="!item.link">
+                  {{ item.title }}
+                </ng-container>
+              </li>
+            </ng-container>
+
+            <li class="breadcrumb-item active" aria-current="page">{{ title }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
