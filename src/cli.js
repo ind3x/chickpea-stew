@@ -8,9 +8,12 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--source': String,
             '--target': String,
             '--package': String,
+            '--jhipster': Boolean,
             '-S': '--source',
             '-T': '--target',
-            '-pkg': '--package'
+            '-pkg': '--package',
+            '-j': '--jhipster'
+            
         },
         {
             argv: rawArgs.slice(2),
@@ -21,6 +24,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         sourceDirectory: args['--source'] || false,
         targetDirectory: args['--target'] || false,
         packageName: args['--package'] || false,
+        jhipster: args['--jhipster'] || false,
         concern: args._[0],
     };
 }
@@ -65,6 +69,15 @@ async function promptForMissingOptions(options) {
         });
     }
     
+    if (!options.jhipster) {
+        questions.push({
+            type: 'confirm',
+            name: 'jhipster',
+            message: 'Buy JHipster cubes before cook?',
+            default: false,
+        });
+    }
+    
     answers = await inquirer.prompt(questions);
     return {
         ...options,
@@ -72,6 +85,7 @@ async function promptForMissingOptions(options) {
         sourceDirectory: options.sourceDirectory || answers.sourceDirectory,
         targetDirectory: options.targetDirectory || answers.targetDirectory,
         packageName: options.packageName || answers.packageName,
+        jhipster: options.jhipster || answers.jhipster,
     };
 }
 
