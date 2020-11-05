@@ -30,7 +30,7 @@ function parseArgumentsIntoOptions(rawArgs) {
 }
 
 async function promptForMissingOptions(options) {
-    const questions = [];
+    let questions = [];
     if (!options.concern) {
         questions.push({
             type: 'list',
@@ -59,16 +59,6 @@ async function promptForMissingOptions(options) {
         });
     }
     
-    let answers = await inquirer.prompt(questions);
-    if ([options.concern, answers.concern].indexOf('backend') !== -1 && !options.packageName) {
-        questions.push({
-            type: 'input',
-            name: 'packageName',
-            message: 'Set Chickpea package name',
-            default: 'com.chickpea.stew',
-        });
-    }
-    
     if (!options.jhipster) {
         questions.push({
             type: 'confirm',
@@ -78,7 +68,18 @@ async function promptForMissingOptions(options) {
         });
     }
     
-    answers = await inquirer.prompt(questions);
+    let answers = await inquirer.prompt(questions);
+    questions = [];
+    if ([options.concern, answers.concern.toLowerCase()].indexOf('backend') !== -1 && !options.packageName) {
+        questions.push({
+            type: 'input',
+            name: 'packageName',
+            message: 'Set Chickpea package name',
+            default: 'com.chickpea.stew',
+        });
+    }
+    
+    answers = {...answers, ...await inquirer.prompt(questions)};
     return {
         ...options,
         concern: options.concern || answers.concern,
