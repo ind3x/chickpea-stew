@@ -12,8 +12,8 @@ export const ModalModels = {
             icon: 'ti-alert',
             content: `¿Confirma eliminar permanentemente este ${resourceName}?`,
             buttons: [
-                {label: 'Cancelar', value: false, color: 'light'},
-                {label: 'Confirmar borrado', value: true, color: 'danger'}
+                { label: 'Cancelar', value: false, color: 'light' },
+                { label: 'Confirmar borrado', value: true, color: 'danger' }
             ]
         };
     }

@@ -2,7 +2,7 @@ import arg from 'arg';
 import inquirer from 'inquirer';
 import { stew } from './main';
 
-function parseArgumentsIntoOptions(rawArgs) {
+function parseArgumentsIntoOptions (rawArgs) {
     const args = arg(
         {
             '--source': String,
@@ -16,20 +16,20 @@ function parseArgumentsIntoOptions(rawArgs) {
             
         },
         {
-            argv: rawArgs.slice(2),
+            argv: rawArgs.slice(2)
         }
     );
-
+    
     return {
         sourceDirectory: args['--source'] || false,
         targetDirectory: args['--target'] || false,
         packageName: args['--package'] || false,
         jhipster: args['--jhipster'] || false,
-        concern: args._[0] ? args._[0].toLowerCase() : false,
+        concern: args._[0] ? args._[0].toLowerCase() : false
     };
 }
 
-async function promptForMissingOptions(options) {
+async function promptForMissingOptions (options) {
     let questions = [];
     if (!options.concern) {
         questions.push({
@@ -37,7 +37,7 @@ async function promptForMissingOptions(options) {
             name: 'concern',
             message: 'Which Garbanzo stew do you want to cook?',
             choices: ['Backend', 'Frontend'],
-            default: 'Backend',
+            default: 'Backend'
         });
     }
     
@@ -46,7 +46,7 @@ async function promptForMissingOptions(options) {
             type: 'input',
             name: 'sourceDirectory',
             message: 'Set JHipster directory',
-            default: `${process.cwd()}/tools/jhipster`,
+            default: `${process.cwd()}/tools/jhipster`
         });
     }
     
@@ -55,7 +55,7 @@ async function promptForMissingOptions(options) {
             type: 'input',
             name: 'targetDirectory',
             message: 'Set Garbanzo directory',
-            default: `${process.cwd()}/target`,
+            default: `${process.cwd()}/target`
         });
     }
     
@@ -64,7 +64,7 @@ async function promptForMissingOptions(options) {
             type: 'confirm',
             name: 'jhipster',
             message: 'Buy JHipster cubes before cook (create JHipster application)?',
-            default: false,
+            default: false
         });
     }
     
@@ -82,19 +82,19 @@ async function promptForMissingOptions(options) {
             type: 'input',
             name: 'packageName',
             message: 'Set Garbanzo package name',
-            default: 'com.chickpea.stew',
+            default: 'com.chickpea.stew'
         });
     }
     
     // Get all answers and return all options
-    answers = {...answers, ...await inquirer.prompt(questions)};
+    answers = { ...answers, ...await inquirer.prompt(questions) };
     return {
         ...options,
         concern: options.concern || answers.concern.toLowerCase(),
         sourceDirectory: options.sourceDirectory || answers.sourceDirectory,
         targetDirectory: options.targetDirectory || answers.targetDirectory,
         packageName: options.packageName || answers.packageName,
-        jhipster: options.jhipster || answers.jhipster,
+        jhipster: options.jhipster || answers.jhipster
     };
 }
 

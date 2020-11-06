@@ -1,4 +1,4 @@
-package com.ecovinal.industria.models;
+package com.garbando.package.models;
 
 import org.springframework.data.domain.Page;
 

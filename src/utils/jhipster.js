@@ -2,10 +2,11 @@ import execa from 'execa';
 import chalk from 'chalk';
 import { promisify } from 'util';
 import fs from 'fs';
+import { stewOptions as options } from '../main';
 
 const readFile = promisify(fs.readFile);
 
-export async function checkJhipsterConfig (options) {
+export async function checkJhipsterConfig () {
     try {
         await readFile(`${options.sourceDirectory}/.yo-rc.json`);
         await readFile(`${options.sourceDirectory}/application.jdl`);
@@ -16,7 +17,7 @@ export async function checkJhipsterConfig (options) {
     }
 }
 
-export async function execJhipster (options) {
+export async function execJhipster () {
     const result = await execa('jhipster', ['--force', '--skip-install'], {
         cwd: options.sourceDirectory
     });
@@ -26,12 +27,12 @@ export async function execJhipster (options) {
     return Promise.resolve('Done');
 }
 
-export async function importJhipsterJdl (options) {
+export async function importJhipsterJdl () {
     const result = await execa('jhipster', ['import-jdl', 'application.jdl'], {
         cwd: options.sourceDirectory
     });
     if (result.failed) {
-        return Promise.reject(new Error('You has messed up with your JHipster cubes (cannot import JDL)'));
+        return Promise.reject(new Error('You have messed up with your JHipster cubes (cannot import JDL)'));
     }
     return Promise.resolve('Done');
 }

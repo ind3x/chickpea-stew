@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { CardWrapperComponent } from './card-wrapper/card-wrapper.component';
-
-
 
 @NgModule({
     declarations: [HeaderComponent, CardWrapperComponent],
@@ -17,4 +15,4 @@ import { CardWrapperComponent } from './card-wrapper/card-wrapper.component';
         RouterModule
     ]
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

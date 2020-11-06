@@ -1,4 +1,4 @@
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 export const imageUtils = {
     getImageType: ($event: Event): string => {
@@ -16,5 +16,5 @@ export const imageUtils = {
                 subscriber.complete();
             };
         });
-    },
+    }
 };

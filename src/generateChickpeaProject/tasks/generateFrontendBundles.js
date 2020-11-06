@@ -1,35 +1,35 @@
 import fs from 'fs';
-import { getJhipsterDirectoryMap } from '../directoryMap';
+import { getJhipsterDirectoryMap } from '../../utils/directoryMap';
 import { promisify } from 'util';
 import { Observable } from 'rxjs';
+import { stewOptions as options } from '../../main';
 
 const readDir = promisify(fs.readdir);
 const mkDir = promisify(fs.mkdir);
 const copyFile = promisify(fs.copyFile);
 
-export function generateFrontendBundles (options) {
+export function generateFrontendBundles () {
     return [
         {
             title: 'Heating up Garbanzo stew (generating Garbanzo bundles directories)',
-            task: () => makeBundleDirectories(options)
+            task: () => makeBundleDirectories()
         },
         {
             title: 'Adding JHipster cubes (copying JHipster files to Garbanzo bundles)',
-            task: () => copyJHipsterFilesToBundles(options)
+            task: () => copyJHipsterFilesToBundles()
         }
     ];
 }
 
 /**
  *
- * @param options
  * @returns {Promise<any>}
  */
-async function makeBundleDirectories (options) {
+async function makeBundleDirectories () {
     return new Observable(async observer => {
         observer.next('Heat the oil in a large non-stick saucepan over a medium heat.');
         
-        const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
+        const jhipsterDirectoryMap = await getJhipsterDirectoryMap();
         const bundleTargetDirectory = `${options.targetDirectory}/bundles`;
         
         // Create bundle directory
@@ -98,13 +98,12 @@ async function makeBundleDirectories (options) {
 
 /**
  * Copy
- * @param options
  * @returns {Promise<boolean>}
  */
-async function copyJHipsterFilesToBundles (options) {
+async function copyJHipsterFilesToBundles () {
     return new Observable(async observer => {
         observer.next('Add water and tomato purée to the pan. Bring the mixture to the boil.');
-        const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
+        const jhipsterDirectoryMap = await getJhipsterDirectoryMap();
         const bundleTargetDirectory = `${options.targetDirectory}/bundles`;
         
         observer.next('Add JHipster cubes to the pan and stir well, then reduce the heat until the mixture is simmering.');

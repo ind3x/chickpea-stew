@@ -1,4 +1,4 @@
-package com.ecovinal.industria.errors;
+package com.garbando.package.errors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;

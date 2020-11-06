@@ -1,22 +1,23 @@
 import fs from 'fs';
-import { getJhipsterDirectoryMap } from '../directoryMap';
+import { getJhipsterDirectoryMap } from '../../utils/directoryMap';
 import { promisify } from 'util';
 import { camelCase } from 'text-case';
 import { Observable } from 'rxjs';
+import { stewOptions as options } from '../../main';
 
 const readDir = promisify(fs.readdir);
 const mkDir = promisify(fs.mkdir);
 const copyFile = promisify(fs.copyFile);
 
-export function generateBackendBundles (options) {
+export function generateBackendBundles () {
     return [
         {
             title: 'Heating up Garbanzo stew (generating Garbanzo bundles directories)',
-            task: () => makeBundleDirectories(options)
+            task: () => makeBundleDirectories()
         },
         {
             title: 'Adding JHipster cubes (copying JHipster files to Garbanzo bundles)',
-            task: () => copyJHipsterFilesToBundles(options)
+            task: () => copyJHipsterFilesToBundles()
         }
     ];
 }
@@ -26,11 +27,11 @@ export function generateBackendBundles (options) {
  * @param options
  * @returns {Promise<any>}
  */
-async function makeBundleDirectories (options) {
+async function makeBundleDirectories () {
     return new Observable(async observer => {
         observer.next('Heat the oil in a large non-stick saucepan over a medium heat.');
         
-        const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
+        const jhipsterDirectoryMap = await getJhipsterDirectoryMap();
         const bundleTargetDirectory = `${options.targetDirectory}/bundles`;
         
         // Create bundle directory
@@ -42,7 +43,7 @@ async function makeBundleDirectories (options) {
             observer.error(new Error('Cannot create Garbanzo bundles directory'));
             return;
         }
-     
+        
         observer.next('Add the onion and garlic and fry gently for 2-3 minutes, stirring occasionally, until softened but not browned.');
         let models;
         try {
@@ -56,42 +57,42 @@ async function makeBundleDirectories (options) {
             if (isDir(`${jhipsterDirectoryMap['models']}/${model}`) || model.indexOf('.java') === -1) {
                 continue;
             }
-    
+            
             // Get model name
             const modelName = model.split('.').shift();
-    
+            
             try {
                 // Create bundle directory
                 const bundlePath = `${bundleTargetDirectory}/${camelCase(modelName)}`;
                 if (!fs.existsSync(bundlePath)) {
                     await mkDir(bundlePath, { recursive: true });
                 }
-    
+                
                 // Create bundle model directory
                 if (!fs.existsSync(`${bundlePath}/models`)) {
                     await mkDir(`${bundlePath}/models`, { recursive: true });
                 }
-    
+                
                 // Create bundle repository directory
                 if (!fs.existsSync(`${bundlePath}/repositories`)) {
                     await mkDir(`${bundlePath}/repositories`, { recursive: true });
                 }
-    
+                
                 // Create bundle services directory and dto recursively
                 if (!fs.existsSync(`${bundlePath}/services/dto`)) {
                     await mkDir(`${bundlePath}/services/dto`, { recursive: true });
                 }
-    
+                
                 // Create bundle services directory
                 if (!fs.existsSync(`${bundlePath}/mappers`)) {
                     await mkDir(`${bundlePath}/mappers`, { recursive: true });
                 }
-    
+                
                 // Create bundle services directory
                 if (!fs.existsSync(`${bundlePath}/controllers`)) {
                     await mkDir(`${bundlePath}/controllers`, { recursive: true });
                 }
-    
+                
                 // Create bundle services directory
                 if (!fs.existsSync(`${bundlePath}/queryParameters`)) {
                     await mkDir(`${bundlePath}/queryParameters`, { recursive: true });
@@ -111,10 +112,10 @@ async function makeBundleDirectories (options) {
  * @param options
  * @returns {Promise<boolean>}
  */
-async function copyJHipsterFilesToBundles (options) {
+async function copyJHipsterFilesToBundles () {
     return new Observable(async observer => {
         observer.next('Add water and tomato purée to the pan. Bring the mixture to the boil.');
-        const jhipsterDirectoryMap = await getJhipsterDirectoryMap(options);
+        const jhipsterDirectoryMap = await getJhipsterDirectoryMap();
         const bundleTargetDirectory = `${options.targetDirectory}/bundles`;
         
         observer.next('Add JHipster cubes to the pan and stir well, then reduce the heat until the mixture is simmering.');
@@ -133,14 +134,14 @@ async function copyJHipsterFilesToBundles (options) {
             
             // Get model name
             const modelName = model.split('.').shift();
-    
+            
             // Get bundle path
             const bundlePath = `${bundleTargetDirectory}/${camelCase(modelName)}`;
             
             try {
                 // Copy model
                 await copyFile(`${jhipsterDirectoryMap['models']}/${model}`, `${bundlePath}/models/${model}`);
-    
+                
                 // Copy repository
                 if (fs.existsSync(`${jhipsterDirectoryMap['repositories']}/${modelName}Repository.java`)) {
                     await copyFile(
@@ -148,7 +149,7 @@ async function copyJHipsterFilesToBundles (options) {
                         `${bundlePath}/repositories/${modelName}Repository.java`
                     );
                 }
-    
+                
                 // Copy service interfaces
                 if (fs.existsSync(`${jhipsterDirectoryMap['services']}/${modelName}Service.java`)) {
                     await copyFile(
@@ -156,7 +157,7 @@ async function copyJHipsterFilesToBundles (options) {
                         `${bundlePath}/services/${modelName}Service.java`
                     );
                 }
-    
+                
                 // Copy service implementation
                 if (fs.existsSync(`${jhipsterDirectoryMap['services']}/impl/${modelName}ServiceImpl.java`)) {
                     await copyFile(
@@ -164,7 +165,7 @@ async function copyJHipsterFilesToBundles (options) {
                         `${bundlePath}/services/${modelName}ServiceImpl.java`
                     );
                 }
-    
+                
                 // Copy service dto
                 if (fs.existsSync(`${jhipsterDirectoryMap['services']}/dto/${modelName}DTO.java`)) {
                     await copyFile(
@@ -172,7 +173,7 @@ async function copyJHipsterFilesToBundles (options) {
                         `${bundlePath}/services/dto/${modelName}DTO.java`
                     );
                 }
-    
+                
                 // Copy mappers
                 if (fs.existsSync(`${jhipsterDirectoryMap['mappers']}/${modelName}Mapper.java`)) {
                     await copyFile(
@@ -180,7 +181,7 @@ async function copyJHipsterFilesToBundles (options) {
                         `${bundlePath}/mappers/${modelName}Mapper.java`
                     );
                 }
-    
+                
                 // Copy controllers
                 if (fs.existsSync(`${jhipsterDirectoryMap['controllers']}/${modelName}Resource.java`)) {
                     await copyFile(
