@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import Listr from 'listr';
 import { generateGarbanzoProject } from './generateChickpeaProject/generateGarbanzoProject';
 import { jhipsterToGarbanzo } from './fromJHipsterToGarbanzo/jhipsterToGarbanzo';
-import { checkJhipsterConfig, execJhipster, importJhipsterJdl } from './utils/jhipster';
+import { checkJhipsterApplicationJdl, execJhipster, importJhipsterJdl } from './utils/jhipster';
 
 export let stewOptions;
 
@@ -11,14 +11,9 @@ export async function stew (options) {
     
     let tasks = [
         {
-            title: `Buying JHipster cubes (creating JHipster application from detected configuration)`,
-            task: () => execJhipster(),
-            enabled: () => stewOptions.jhipster && checkJhipsterConfig()
-        },
-        {
-            title: `Putting in place JHipster cubes (importing JHipster JDL)`,
+            title: `Buying JHipster cubes (creating JHipster application from JHipster JDL)`,
             task: () => importJhipsterJdl(),
-            enabled: () => stewOptions.jhipster && checkJhipsterConfig()
+            enabled: () => stewOptions.jhipster && checkJhipsterApplicationJdl()
         },
         {
             title: `Cooking Garbanzo stew (generating Garbanzo ${stewOptions.concern} project)`,

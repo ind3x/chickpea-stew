@@ -22,7 +22,7 @@ export function replaceJavaPackageName () {
                     await replaceInFile({
                         files: file,
                         from: /^.*\package\b.*$/gm,
-                        to: `package ${getFilePackageName(file, options)}`
+                        to: `package ${getFilePackageName(file, options)};`
                     });
                 }
                 

@@ -6,13 +6,12 @@ import { stewOptions as options } from '../main';
 
 const readFile = promisify(fs.readFile);
 
-export async function checkJhipsterConfig () {
+export async function checkJhipsterApplicationJdl () {
     try {
-        await readFile(`${options.sourceDirectory}/.yo-rc.json`);
         await readFile(`${options.sourceDirectory}/application.jdl`);
         return true;
     } catch (e) {
-        console.error('%s Cannot find JHipster cubes', chalk.red.bold('ERROR'));
+        console.error('%s Cannot find JHipster cubes (cannot read application.jdl)', chalk.red.bold('ERROR'));
         process.exit(1);
     }
 }
