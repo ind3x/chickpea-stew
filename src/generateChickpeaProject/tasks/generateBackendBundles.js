@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { camelCase } from 'text-case';
 import { Observable } from 'rxjs';
 import { stewOptions as options } from '../../main';
+import replaceInFile from "replace-in-file";
 
 const readDir = promisify(fs.readdir);
 const mkDir = promisify(fs.mkdir);
@@ -188,6 +189,12 @@ async function copyJHipsterFilesToBundles () {
                         `${jhipsterDirectoryMap['controllers']}/${modelName}Resource.java`,
                         `${bundlePath}/controllers/${modelName}Controller.java`
                     );
+    
+                    await replaceInFile({
+                        files: `${bundlePath}/controllers/${modelName}Controller.java`,
+                        from: new RegExp(`${modelName}Resource`, 'gm'),
+                        to: `${modelName}Controller`
+                    });
                 }
             } catch (e) {
                 // Do nothing
