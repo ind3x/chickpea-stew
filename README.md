@@ -6,9 +6,9 @@ Enrich Garbanzo projects with JHipster cubes.
 
 - Create Garbanzo backend project:
 
-`stew backend --source=/home/user/route/to/project/tools/jhipster --target=/home/user/route/to/project/target --package=com.ecovinal.industria`
+`stew backend --source=/home/user/route/to/project/tools/jhipster --target=/home/user/route/to/project/target --package=com.chickpea.stew`
 
-`guisar backend --source=/home/user/route/to/project/tools/jhipster --target=/home/user/route/to/project/target --package=com.ecovinal.industria`
+`guisar backend --source=/home/user/route/to/project/tools/jhipster --target=/home/user/route/to/project/target --package=com.chickpea.stew`
 
 - Create Garbanzo frontend project:
 
